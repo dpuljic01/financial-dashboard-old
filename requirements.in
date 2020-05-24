@@ -2,10 +2,10 @@ Flask
 gunicorn
 # Flask-Restful
 # Flask-Script
-# SQLAlchemy
+Flask-SQLAlchemy
 # SQLAlchemy-Utils
-# Flask-Migrate
+Flask-Migrate
 # alembic
-# psycopg2
+psycopg2
 # Safe
 # python-dotenv
