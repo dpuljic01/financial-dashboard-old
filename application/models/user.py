@@ -16,7 +16,7 @@ def get_uuid():
     return str(uuid4())
 
 
-class User(db.Model, UserMixin, TimestampMixin):
+class User(UserMixin, db.Model, TimestampMixin):
     """
     User model.
     `account_type`: `basic` and `premium`, also `admin`, but not sure about that yet. It"s `basic` by default
@@ -28,7 +28,8 @@ class User(db.Model, UserMixin, TimestampMixin):
     email = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(255), nullable=False)
     password = db.Column(PasswordType(schemes=["bcrypt"]), nullable=False)
-    active = db.Column("is_active", db.Boolean(), nullable=False, server_default="1")
+    is_active = db.Column(db.Boolean(), nullable=False, server_default="1")
+    confirmed = db.Column(db.Boolean(), nullable=False, server_default="0")
     email_confirmed_at = db.Column(db.DateTime())
 
     roles = db.relationship("Role", secondary="user_roles")
@@ -43,17 +44,6 @@ class User(db.Model, UserMixin, TimestampMixin):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
 
-    @property
-    def json(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "account_type": self.account_type,
-            "status": self.status,
-        }
-
     @validates("password")
     def validate_password(self, key, password):
         strength = safe.check(password, level=safe.MEDIUM)
@@ -63,10 +53,10 @@ class User(db.Model, UserMixin, TimestampMixin):
 
     @staticmethod
     def auth(username, password, active=True):
-        user = User.query.filter_by(username=username, active=active).first()
-        if user:
-            return user.password == password
-        return False
+        user = User.query.filter_by(username=username).first()
+        if user and user.password == password:
+            return user
+        return None
 
     def __repr__(self):
         return f"User(id={self.id}, email={self.email}, account_type={self.account_type}, status={self.status})"

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from flask_user import login_required
 
 from application.app import db
@@ -23,9 +23,9 @@ def login_post():
     password = request.form.get("password")
     remember = True if request.form.get("remember") else False
 
-    user = User.query.filter_by(username=username).first()
+    user = User.auth(username=username, password=password)
 
-    if not user or not User.auth(username, password):
+    if not user:
         flash("Please check your login details and try again.")
         return redirect(url_for("auth.login"))
 
@@ -55,7 +55,7 @@ def signup_post():
         "email": email,
         "username": username,
         "password": password,
-        "active": False
+        "confirmed": False
     }
     user = User(**payload)
 
@@ -67,9 +67,9 @@ def signup_post():
     send_email(recipients=user.email, token=token)
 
     login_user(user)
-    flash('A confirmation email has been sent via email.', 'success')
+    flash("A confirmation email has been sent via email.", "success")
 
-    return redirect(url_for("main.index"))
+    return redirect(url_for("auth.unconfirmed"))
 
 
 @bp.route("/logout")
@@ -89,12 +89,21 @@ def confirm_email(token):
 
     user = User.query.filter_by(email=email).first_or_404()
 
-    if user.active:
+    if user.confirmed:
         flash("Account already confirmed. Please login.", "success")
-        redirect(url_for("auth.login"))
     else:
-        user.active = True
-        user.email_confirmed_at = datetime.utcnow()
+        user.confirmed = True
+        user.confirmed_on = datetime.utcnow()
+        db.session.add(user)
         db.session.commit()
         flash("You have confirmed your account.", "success")
-    return redirect(url_for("main.index"))
+    return redirect(url_for("main.profile"))
+
+
+@bp.route('/unconfirmed', methods=["GET"])
+@login_required
+def unconfirmed():
+    if current_user.confirmed:
+        return redirect(url_for('main.profile'))
+    flash('Please confirm your account!', 'warning')
+    return render_template('unconfirmed.html')

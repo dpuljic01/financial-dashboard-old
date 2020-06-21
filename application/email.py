@@ -7,7 +7,7 @@ from application.app import mail
 
 def send_email(recipients, token):
     subject = "Please confirm your email"
-    confirm_url = url_for("user.confirm_email", token=token, _external=True)
+    confirm_url = url_for("auth.confirm_email", token=token, _external=True)
     template = render_template("activate.html", confirm_url=confirm_url)
     msg = Message(
         subject=subject,
