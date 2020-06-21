@@ -1,11 +1,17 @@
 Flask
 gunicorn
 # Flask-Restful
-# Flask-Script
+Flask-User
+Flask-Script
+Flask-BabelEx
 Flask-SQLAlchemy
-# SQLAlchemy-Utils
+SQLAlchemy-Utils
+passlib
 Flask-Migrate
 # alembic
 psycopg2
-# Safe
-# python-dotenv
+Safe
+python-dotenv
+bcrypt
+email-validator
+click
