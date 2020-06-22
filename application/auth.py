@@ -1,8 +1,7 @@
 from datetime import datetime
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, current_user
-from flask_user import login_required
+from flask_login import login_user, logout_user, current_user, login_required
 
 from application.app import db
 from application.email import send_email
@@ -100,10 +99,10 @@ def confirm_email(token):
     return redirect(url_for("main.profile"))
 
 
-@bp.route('/unconfirmed', methods=["GET"])
+@bp.route("/unconfirmed", methods=["GET"])
 @login_required
 def unconfirmed():
     if current_user.confirmed:
-        return redirect(url_for('main.profile'))
-    flash('Please confirm your account!', 'warning')
-    return render_template('unconfirmed.html')
+        return redirect(url_for("main.profile"))
+    flash("Please confirm your account!", "warning")
+    return render_template("unconfirmed.html")
