@@ -1,36 +1,95 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
-    <div class="box">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-        <form method="POST" action="/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="text" name="username" placeholder="Your username" autofocus="">
-                </div>
-            </div>
+{% block title %}
+Login
+{% endblock %}
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your password">
+{% block content %}
+    <div class="container container-auth white">
+        <div class="card-tabs">
+            <ul class="tabs tabs-fixed-width blue darken-3">
+                <li class="tab"><a class="white-text active" href="{{ url_for('auth.login', _anchor='login') }}">login</a></li>
+                <li class="tab"><a class="white-text" href="{{ url_for('auth.register', _anchor='register') }}">register</a></li>
+            </ul>
+        </div>
+        <div id="login">
+            <form class="col s12" method="POST" action="/login">
+                <div class="form-container">
+                    <h3 class="blue-text darken-3 center-align">Login</h3>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <script type="text/javascript">
+                            M.toast({{ messages[0] }}, 4000)
+                        </script>
+                    {% endif %}
+                    {% endwith %}
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="email" name="email" class="validate">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="password" name="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="remember">
+                                <input id="remember" type="checkbox" />
+                                <span>Remember</span>
+                            </label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="center-align">
+                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Login</button>
+                        <br><br>
+                        <a href="">Forgotten password?</a>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox">
-                    Remember me
-                </label>
-            </div>
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
-        </form>
+            </form>
+        </div>
+        <div id="register">
+            <form class="col s12" method="POST" action="/register">
+                <div class="form-container">
+                    <h3 class="blue-text darken-3 center-align">Register</h3>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="first_name" name="first_name" type="text" class="validate">
+                            <label for="first_name">First Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="last_name" name="last_name" type="text" class="validate">
+                            <label for="last_name">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" type="email" name="email" class="validate">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" name="password" class="validate">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="input-field col s12">
+                            <input id="password-confirm" type="password" name="password-confirm" class="validate">
+                            <label for="password-confirm">Password Confirmation</label>
+                        </div>
+                    </div>-->
+                    <div class="center-align">
+                        <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+
 {% endblock %}

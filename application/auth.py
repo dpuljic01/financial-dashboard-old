@@ -11,18 +11,16 @@ from application.token import generate_confirmation_token, confirm_token
 bp = Blueprint("auth", __name__)
 
 
-@bp.route("/login")
+@bp.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
 
-
-@bp.route("/login", methods=["POST"])
-def login_post():
-    username = request.form.get("username")
+    email = request.form.get("email")
     password = request.form.get("password")
     remember = True if request.form.get("remember") else False
 
-    user = User.auth(username=username, password=password)
+    user = User.auth(email=email, password=password)
 
     if not user:
         flash("Please check your login details and try again.")
@@ -32,29 +30,27 @@ def login_post():
     return redirect(url_for("main.profile"))
 
 
-@bp.route("/signup", methods=["GET"])
-def signup():
-    return render_template("signup.html")
+@bp.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_template("login.html")
 
-
-@bp.route("/signup", methods=["POST"])
-def signup_post():
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
     email = request.form.get("email")
-    username = request.form.get("username")
     password = request.form.get("password")
 
     user = User.query.filter_by(email=email).first()
 
-    if user:  # if a user is found, we want to redirect back to signup page so user can try again
+    if user:
         flash("Email address already exists")
-        return redirect(url_for("auth.signup"))
+        return redirect(url_for("auth.register"))
 
-    # create new user with the form data. Hash the password so plaintext version isn"t saved.
     payload = {
+        "first_name": first_name,
+        "last_name": last_name,
         "email": email,
-        "username": username,
         "password": password,
-        "confirmed": False
     }
     user = User(**payload)
 
@@ -92,7 +88,7 @@ def confirm_email(token):
         flash("Account already confirmed. Please login.", "success")
     else:
         user.confirmed = True
-        user.confirmed_on = datetime.utcnow()
+        user.email_confirmed_at = datetime.utcnow()
         db.session.add(user)
         db.session.commit()
         flash("You have confirmed your account.", "success")

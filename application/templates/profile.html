@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 
+{% block title %}
+Profile
+{% endblock %}
+
 {% block content %}
-<h1 class="title">
-  Welcome, {{ username }}
-</h1>
+<nav class="blue darken-3" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo">Profile <i class="material-icons">person</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center orange-text">Welcome, {{ user }}</h1>
+    </div>
+</div>
 {% endblock %}

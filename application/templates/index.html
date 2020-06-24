@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 
+{% block title %}
+Financial Dashboard
+{% endblock %}
+
 {% block content %}
-<h1 class="title">
-  Flask Login Example
-</h1>
-<h2 class="subtitle">
-  Easy authentication and authorization in Flask.
-</h2>
+<nav class="blue darken-3" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo">Dashboard <i class="material-icons">show_chart</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center orange-text">Financial Dashboard</h1>
+        <div class="row center">
+            <h5 class="header col s12 light">A dashboard for financial markets</h5>
+        </div>
+        <div class="row center">
+            <a href="https://i.gifer.com/7zhp.gif" class="btn-large waves-effect waves-light orange">Noice</a>
+        </div>
+        <br><br>
+    </div>
+</div>
 {% endblock %}

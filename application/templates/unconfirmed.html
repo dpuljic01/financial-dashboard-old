@@ -1,10 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>Welcome!</h1>
-<br>
-<p>You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
-<p>Didn't get the email? <a href="/">Resend</a>.</p>
-
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <h3 class="header center orange-text">Welcome!</h3>
+        <div class="row center">
+            <h5 class="header col s12 light">
+                You have not confirmed your account.
+                You should have received an email with a confirmation link.
+            </h5>
+        </div>
+        <div class="row center">
+            Didn't get the email?
+            <a href="#" class="btn-medium waves-effect waves-light blue-text">Resend</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

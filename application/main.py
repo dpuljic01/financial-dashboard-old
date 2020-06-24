@@ -7,6 +7,8 @@ bp = Blueprint("main", __name__)
 
 @bp.route("/")
 def index():
+    if not current_user.is_authenticated:
+        return render_template("login.html")
     return render_template("index.html")
 
 
@@ -14,4 +16,4 @@ def index():
 @login_required
 @check_confirmed
 def profile():
-    return render_template("profile.html", username=current_user.username)
+    return render_template("profile.html", user=current_user.first_name)
