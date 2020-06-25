@@ -5,38 +5,47 @@ Login
 {% endblock %}
 
 {% block content %}
-    <div class="container container-auth white">
+    <div class="container container-auth white s10">
         <div class="card-tabs">
             <ul class="tabs tabs-fixed-width blue darken-3">
-                <li class="tab"><a class="white-text active" href="{{ url_for('auth.login', _anchor='login') }}">login</a></li>
-                <li class="tab"><a class="white-text" href="{{ url_for('auth.register', _anchor='register') }}">register</a></li>
+                {% if register %}
+                    <li class="tab"><a class="white-text" href="{{ url_for('auth.login', _anchor='login') }}">login</a></li>
+                    <li class="tab"><a class="white-text active" href="{{ url_for('auth.register', _anchor='register') }}">register</a></li>
+                {% else %}
+                    <li class="tab"><a class="white-text active" href="{{ url_for('auth.login', _anchor='login') }}">login</a></li>
+                    <li class="tab"><a class="white-text" href="{{ url_for('auth.register', _anchor='register') }}">register</a></li>
+                {%  endif %}
             </ul>
         </div>
         <div id="login">
             <form class="col s12" method="POST" action="/login">
+                {{ form.hidden_tag() }}
                 <div class="form-container">
                     <h3 class="blue-text darken-3 center-align">Login</h3>
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                        <script type="text/javascript">
-                            M.toast({{ messages[0] }}, 4000)
-                        </script>
+                         <script type="text/javascript">
+                            Materialize.toast("{{ messages[0] }}", 4000);
+                         </script>
                     {% endif %}
                     {% endwith %}
                     <div class="row">
                         <div class="input-field col s12">
-                            <input type="email" name="email" class="validate">
-                            <label for="email">Email</label>
+                            <input id="login_email" type="email" name="email" class="validate">
+                            <label for="login_email">Email</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input type="password" name="password" class="validate">
-                            <label for="password">Password</label>
+                            <span class="btn-show-pass">
+                                <i class="material-icons password-visible">visibility</i>
+                            </span>
+                            <input id="login_password" type="password" name="password" class="validate">
+                            <label for="login_password">Password</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col s12">
                             <label for="remember">
                                 <input id="remember" type="checkbox" />
                                 <span>Remember</span>
@@ -53,7 +62,7 @@ Login
             </form>
         </div>
         <div id="register">
-            <form class="col s12" method="POST" action="/register">
+            <form class="col s12" id="register-form" method="POST" action="/register">
                 <div class="form-container">
                     <h3 class="blue-text darken-3 center-align">Register</h3>
                     <div class="row">
@@ -74,16 +83,13 @@ Login
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
+                            <span class="btn-show-pass">
+                                <i class="material-icons password-visible">visibility</i>
+                            </span>
                             <input id="password" type="password" name="password" class="validate">
                             <label for="password">Password</label>
                         </div>
                     </div>
-                    <!--<div class="row">
-                        <div class="input-field col s12">
-                            <input id="password-confirm" type="password" name="password-confirm" class="validate">
-                            <label for="password-confirm">Password Confirmation</label>
-                        </div>
-                    </div>-->
                     <div class="center-align">
                         <button class="btn waves-effect waves-light blue darken-3" type="submit" name="action">Submit</button>
                     </div>

@@ -16,14 +16,14 @@ class Config:
     # Flask-Mail SMTP server settings
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_PORT = int(os.getenv("MAIL_PORT", 465))
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = ("Financial Dashboard", "financial.dashboard.info@gmail.com")
 
     # Flask-User settings
-    USER_APP_NAME = "Financial Dashboard"      # Shown in an email templates and page footers
+    USER_APP_NAME = "Financial Dashboard"       # Shown in an email templates and page footers
     USER_ENABLE_EMAIL = True                    # Enable email authentication
     USER_ENABLE_USERNAME = True                 # Enable username authentication
     USER_EMAIL_SENDER_NAME = USER_APP_NAME
@@ -32,11 +32,6 @@ class Config:
 
 class ProductionConfig(Config):
     DEBUG = False
-
-
-class StagingConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
 
 
 class DevelopmentConfig(Config):

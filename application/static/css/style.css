@@ -1,6 +1,8 @@
 body, html {
     background: #f5f5f5;
+    background-image: url('../images/bg-01.jpg');
     height: 100%;
+    background-size: cover;
 }
 
 h5 {
@@ -13,7 +15,7 @@ h3 {
 
 .container-auth {
     margin-top: 40px;
-    width: 400px;
+    max-width: 400px;
 }
 .tab {
     width: 200px;
@@ -37,4 +39,34 @@ h3 {
 }
 .icon-block .material-icons {
 	font-size: inherit;
+}
+
+.validate {
+    z-index: 99;
+}
+
+.btn-show-pass {
+    font-size: 15px;
+    color: #999999;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding-right: 15px;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.btn-show-pass:hover {
+    color: #6a7dfe;
+}
+
+/* ugly workaround for blue-ish background on form input autocompletion (chrome/safari only) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }

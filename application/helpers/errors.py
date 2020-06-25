@@ -1,3 +1,14 @@
+from flask import flash
+
+
+def flash_errors(form):
+    """Flashes form errors"""
+    for field, errors in form.errors.items():
+        for error in errors:
+            data = getattr(form, field).label.text
+            flash(f"{data} - {error}")
+
+
 class BaseAppError(Exception):
     def __init__(self, message, error_code, status_code):
         super().__init__()

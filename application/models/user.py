@@ -1,14 +1,11 @@
 from uuid import uuid4
 
-import safe
 from flask_login import UserMixin
-from sqlalchemy import UniqueConstraint, Index
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import validates
 from sqlalchemy_utils import PasswordType
 
 from application.app import db
-from application.helpers.errors import InvalidValueError
 from application.models.mixin import TimestampMixin
 
 
@@ -42,15 +39,8 @@ class User(UserMixin, db.Model, TimestampMixin):
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
 
-    # @validates("password")
-    # def validate_password(self, key, password):
-    #     strength = safe.check(password, level=safe.MEDIUM)
-    #     if not strength.valid:
-    #         raise InvalidValueError(message=strength.message)
-    #     return password
-
     @staticmethod
-    def auth(email, password, active=True):
+    def auth(email, password):
         user = User.query.filter_by(email=email).first()
         if user and user.password == password:
             return user

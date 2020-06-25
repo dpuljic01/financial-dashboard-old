@@ -3,7 +3,7 @@ import click
 from datetime import datetime
 
 from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+from flask_script import Manager, Server
 
 from application.app import db
 from application.models import User, Role
@@ -12,6 +12,7 @@ from wsgi import app
 migrate = Migrate(app, db)
 manager = Manager(app)
 
+manager.add_command("runserver", Server(host="0.0.0.0"))
 manager.add_command("db", MigrateCommand)
 
 

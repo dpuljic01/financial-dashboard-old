@@ -6,12 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_user import UserManager
 from flask_babelex import Babel
 from flask_mail import Mail
+from flask_wtf import CSRFProtect
 
 load_dotenv()
 
 db = SQLAlchemy()
 mail = Mail()
 babel = Babel()
+csrf = CSRFProtect()
 
 from application import auth, main
 
@@ -33,6 +35,7 @@ def create_app():
 
     mail.init_app(app)
     babel.init_app(app)
+    csrf.init_app(app)
 
     from application.models import User
 
