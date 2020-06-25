@@ -43,7 +43,7 @@ Make sure folder `migrations/versions` is not empty.
 * Deploy on Heroku by pushing to the `heroku` branch or some other branch you created
 
     ```bash
-    git push heroku master
+    git push <heroku|staging|production> master
     ```
   
 * Running the app
