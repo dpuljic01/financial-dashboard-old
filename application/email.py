@@ -2,7 +2,7 @@ from flask import current_app
 from flask import render_template, url_for
 from flask_mail import Message
 
-from application.app import mail
+from application.extensions import mail
 
 
 def send_email(recipients, token):

@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 
-from application.app import db
+from application.extensions import db
 from application.models import User, Role
 from wsgi import app
 

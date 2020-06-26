@@ -16,3 +16,7 @@ bcrypt
 email-validator
 click
 pyopenssl
+dash
+numpy
+pandas
+pandas-datareader

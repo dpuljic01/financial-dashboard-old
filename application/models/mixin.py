@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from application.app import db
+from application.extensions import db
 
 
 class TimestampMixin(object):

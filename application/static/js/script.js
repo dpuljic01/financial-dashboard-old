@@ -16,6 +16,6 @@ $(function() {
     // little hack for submitting two forms on the same site ;)
     $("#register-form").submit(function(event) {
         var csrf = $("#csrf_token").val();
-        $("#register-form").prepend("<input type='hidden' name='csrf_token' value=" + csrf + ">");
+        $("#register-form").prepend("<input type='hidden' name='csrf-token' value=" + csrf + ">");
     });
  });

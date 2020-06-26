@@ -5,8 +5,14 @@ from sqlalchemy import UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy_utils import PasswordType
 
-from application.app import db
+from application.extensions import db
+from application.extensions import login
 from application.models.mixin import TimestampMixin
+
+
+@login.user_loader
+def load_user(uuid):
+    return User.query.get(uuid)
 
 
 def get_uuid():

@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, current_user, login_required
 
-from application.app import db
+from application.extensions import db
 from application.email import send_email
 from application.helpers.errors import flash_errors
 from application.helpers.forms import RegistrationForm, LoginForm
@@ -72,7 +72,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("main.index"))
+    return redirect(url_for("auth.login"))
 
 
 @bp.route("/confirm/<string:token>")
