@@ -1,25 +1,24 @@
 import dash_core_components as dcc
 import dash_html_components as html
+from application.helpers.components import navigation
 
-layout = html.Div([
-    html.Img(
-        src="https://i.kym-cdn.com/photos/images/newsfeed/001/499/826/2f0.png",
-        style={
-            "display": "block",
-            "margin": "20px auto",
-            "width": "150px",
-        }
-    ),
+graph = html.Div([
     dcc.Dropdown(
         id="my-dropdown",
         options=[
-            {"label": "Coke", "value": "COKE"},
             {"label": "Tesla", "value": "TSLA"},
             {"label": "Nio", "value": "NIO"},
             {"label": "Apple", "value": "AAPL"},
             {"label": "CDEV", "value": "CDEV"},
         ],
-        value="COKE"
+        value="NIO"
     ),
-    dcc.Graph(id="my-graph")
-], style={"width": "500"})
+    dcc.Graph(id="my-graph", config={"scrollZoom": True})
+], style={
+    "max-width": "100%"
+})
+
+layout = html.Div(className="container main", children=[
+    navigation,
+    graph
+])

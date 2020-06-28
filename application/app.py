@@ -16,37 +16,53 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     # prepared for possibility of multiple dash apps, e.g. dash2
-    from application.dash1.layout import layout
+    from application.dash1.layout import layout as layout1
     from application.dash1.callbacks import register_callbacks
-    register_dashapp(app, "Dashapp 1", "dashboard", layout, register_callbacks)
+    register_dashapp(app, "Dashapp 1", "dash1", layout1, register_callbacks)
+
+    from application.dash2.layout import layout as layout2
+    from application.dash2.callbacks import register_callbacks as register_callbacks2
+    from application.helpers.components import custom_index_string
+    register_dashapp(app, "Dashapp 2", "dash2", layout2, register_callbacks2, custom_index_string)
+
     register_extensions(app)
     register_blueprints(app)
     return app
 
 
-def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun):
+def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun, index_string=None):
     # Meta tags for viewport responsiveness
-    meta_viewport = {"name": "viewport", "content": "width=device-width, initial-scale=1, shrink-to-fit=no"}
-
+    meta_viewport = {
+        "name": "viewport", "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
+        "name": "author", "content": "Domagoj Puljic"
+    }
+    # TODO: change this to be more dynamic because probably not every page needs the same ext styles
+    external_stylesheets = [{
+        "href": "https://fonts.googleapis.com/icon?family=Material+Icons",
+        "rel": "stylesheet"
+    }]
     my_dashapp = dash.Dash(
         __name__,
         server=app,
         url_base_pathname=f"/{base_pathname}/",
+        external_stylesheets=external_stylesheets,
         assets_folder=f"{get_root_path(__name__)}/{base_pathname}/assets/",
-        meta_tags=[meta_viewport]
+        meta_tags=[meta_viewport],
     )
 
     with app.app_context():
         my_dashapp.title = title
         my_dashapp.layout = layout
+        if index_string:
+            my_dashapp.index_string = index_string
         register_callbacks_fun(my_dashapp)
     _protect_dashviews(my_dashapp)
 
 
-def _protect_dashviews(dashapp):
-    for view_func in dashapp.server.view_functions:
-        if view_func.startswith(dashapp.config.url_base_pathname):
-            dashapp.server.view_functions[view_func] = login_required(dashapp.server.view_functions[view_func])
+def _protect_dashviews(dash_app):
+    for view_func in dash_app.server.view_functions:
+        if view_func.startswith(dash_app.config.url_base_pathname):
+            dash_app.server.view_functions[view_func] = login_required(dash_app.server.view_functions[view_func])
 
 
 def register_extensions(app):

@@ -5,20 +5,36 @@ Profile
 {% endblock %}
 
 {% block content %}
-<nav class="blue darken-3" role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" href="#" class="left"><i class="material-icons">person</i></a>
-        <ul class="right">
-            <li><a href="{{ url_for('main.index') }}">Home</a></li>
-            <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-        </ul>
-    </div>
-</nav>
-<div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-        <br><br>
-        <h1 class="header center orange-text">Welcome, {{ user }}</h1>
+<div class="container main">
+    <nav class="blue darken-3" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="left"><i class="material-icons">show_chart</i></a>
+            <ul class="hide-on-med-and-down right">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('main.dash1') }}">Dash 1</a></li>
+                <li><a href="{{ url_for('main.dash2') }}">Dash 2</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            </ul>
+            <a class="dropdown-trigger right hide-on-large-only" href="#" data-activates="dropdown1">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul id="dropdown1" class="dropdown-content">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ url_for('main.dash1') }}">Dash 1</a></li>
+                <li><a href="{{ url_for('main.dash2') }}">Dash 2</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h2 class="header center white-text">Welcome, {{ user }}</h2>
+        </div>
     </div>
 </div>
 {% endblock %}
