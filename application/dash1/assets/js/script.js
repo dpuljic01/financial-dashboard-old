@@ -13,16 +13,10 @@ $(function() {
         }
     });
 
-    // little hack for submitting two forms on the same site ;)
-    $("#register-form").submit(function(event) {
-        var csrf = $("#csrf_token").val();
-        $("#register-form").prepend("<input type='hidden' name='csrf-token' value=" + csrf + ">");
-    });
-
     $(".dropdown-trigger").dropdown({
         inDuration: 300,
         outDuration: 225,
         constrainWidth: false,
-        belowOrigin: true, // Displays dropdown below the button
+        belowOrigin: true // Displays dropdown below the button
     })
 });

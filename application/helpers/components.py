@@ -7,31 +7,34 @@ navigation = html.Nav(className="blue darken-4", children=[
         ]),
         html.Ul(
             children=[
-                html.Li(html.A('Home', href='/')),
-                html.Li(html.A('Profile', href='/profile')),
-                html.Li(html.A('Dash1', href='/dash1')),
-                html.Li(html.A('Dash2', href='/dash2')),
-                html.Li(html.A('Logout', href='/logout')),
+                html.Li(html.A("Home", href="/")),
+                html.Li(html.A("Profile", href="/profile")),
+                html.Li(html.A("Dash1", href="/dash1")),
+                html.Li(html.A("Dash2", href="/dash2")),
+                html.Li(html.A("Logout", href="/logout")),
             ],
-            className='hide-on-med-and-down right'
+            className="hide-on-med-and-down right"
         ),
-        html.A(href="#", className="dropdown-trigger right hide-on-large-only", **{"data-activates": "dropdown1"}, children=[
-            html.I("menu", className="material-icons")
-        ]),
+        html.A(href="#", className="dropdown-trigger right hide-on-large-only",
+               **{
+                   "data-activates": "dropdown1",
+                   "data-target": "dropdown1"
+               },
+               children=[html.I("menu", className="material-icons")]),
         html.Ul(
             children=[
-                html.Li(html.A('Home', href='/')),
+                html.Li(html.A("Home", href="/")),
                 html.Li(className="divider"),
-                html.Li(html.A('Profile', href='/profile')),
+                html.Li(html.A("Profile", href="/profile")),
                 html.Li(className="divider"),
-                html.Li(html.A('Dash1', href='/dash1')),
+                html.Li(html.A("Dash1", href="/dash1")),
                 html.Li(className="divider"),
-                html.Li(html.A('Dash2', href='/dash2')),
+                html.Li(html.A("Dash2", href="/dash2")),
                 html.Li(className="divider"),
-                html.Li(html.A('Logout', href='/logout')),
+                html.Li(html.A("Logout", href="/logout")),
             ],
-            id='dropdown1',
-            className='dropdown-content'
+            id="dropdown1",
+            className="dropdown-content"
         ),
     ])
 ])

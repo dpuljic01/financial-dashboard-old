@@ -33,7 +33,7 @@ def create_app():
 def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun, index_string=None):
     # Meta tags for viewport responsiveness
     meta_viewport = {
-        "name": "viewport", "content": "width=device-width, initial-scale=1, shrink-to-fit=no",
+        "name": "viewport", "content": "width=device-width, initial-scale=1.0",
         "name": "author", "content": "Domagoj Puljic"
     }
     # TODO: change this to be more dynamic because probably not every page needs the same ext styles
@@ -72,6 +72,8 @@ def register_extensions(app):
     from application.extensions import mail
     from application.extensions import babel
     from application.extensions import csrf
+
+    csrf._exempt_views.add('dash.dash.dispatch')
 
     db.init_app(app)
     login.init_app(app)

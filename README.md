@@ -20,6 +20,9 @@ Insert some description here :)
   
 * Running the app
 
-    - *locally* -> `python manage.py runserver`
-    - *staging* -> `heroku run manage.py runserver --app financial-dashboard-stage`
-    - *production* -> `heroku run manage.py runserver --app financial-dashboard-prod`
+    - *locally* -> `python python manage.py runserver`
+    - *staging* -> `heroku run python manage.py runserver --app financial-dashboard-stage`
+    - *production* -> `heroku run python manage.py runserver --app financial-dashboard-prod`
+
+* Create user manually
+    - `heroku run python manage.py create_user --app app_name`

@@ -10,7 +10,7 @@ def register_callbacks(dash_app):
     def update_graph(selected_dropdown_value):
         df = pdr.get_data_yahoo(
             selected_dropdown_value,
-            start=dt(2017, 1, 1),
+            start=dt(2000, 1, 1),
             end=dt.now()
         )
         return {
