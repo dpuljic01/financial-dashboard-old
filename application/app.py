@@ -79,7 +79,7 @@ def register_extensions(app):
     migrate.init_app(app, db)
     mail.init_app(app)
     babel.init_app(app)
-    # csrf.init_app(app)
+    csrf.init_app(app)
 
 
 def register_blueprints(app):

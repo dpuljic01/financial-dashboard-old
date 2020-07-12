@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from flask_login import login_user, logout_user, current_user, login_required
 
 from application.extensions import db
 from application.email import send_email
 from application.helpers.errors import flash_errors
-from application.helpers.forms import RegistrationForm, LoginForm
+from application.helpers.forms import RegistrationForm, LoginForm, ResetPasswordForm, EmailForm
 from application.models import User
 from application.token import generate_confirmation_token, confirm_token
 
@@ -16,22 +16,20 @@ bp = Blueprint("auth", __name__)
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    if request.method == "GET":
-        return render_template("login.html", register=False, form=form)
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        remember = True if form.remember.data else False
 
-    email = request.form.get("email")
-    password = request.form.get("password")
-    remember = True if request.form.get("remember") else False
+        user = User.auth(email=email, password=password)
 
-    user = User.auth(email=email, password=password)
+        if not user:
+            flash("Please check your login details and try again.")
+            return redirect(url_for("auth.login"))
 
-    if not user:
-        flash("Please check your login details and try again.")
-        flash("Please check .")
-        return redirect(url_for("auth.login"))
-
-    login_user(user=user, remember=remember)
-    return redirect(url_for("main.index"))
+        login_user(user=user, remember=remember)
+        return redirect(url_for("main.profile"))
+    return render_template("login.html", form=form)
 
 
 @bp.route("/register", methods=["GET", "POST"])
@@ -56,7 +54,13 @@ def register():
         db.session.commit()
 
         token = generate_confirmation_token(user.email)
-        send_email(recipients=user.email, token=token)
+        send_email(
+            redirect="auth.confirm_email",
+            html="activate.html",
+            recipients=user.email,
+            subject="Please confirm your email",
+            token=token
+        )
 
         login_user(user)
         flash("A confirmation email has been sent via email.")
@@ -65,7 +69,7 @@ def register():
     else:
         flash_errors(form)
 
-    return render_template("login.html", register=True, form=form)
+    return render_template("register.html", form=form)
 
 
 @bp.route("/logout")
@@ -103,3 +107,58 @@ def unconfirmed():
         return redirect(url_for("main.profile"))
     flash("Please confirm your account!")
     return render_template("unconfirmed.html")
+
+
+@bp.route("/resend")
+@login_required
+def resend_confirmation():
+    token = generate_confirmation_token(current_user.email)
+    send_email(
+        redirect="auth.confirm_email",
+        html="activate.html",
+        recipients=current_user.email,
+        subject="Please confirm your email",
+        token=token
+    )
+    flash("A new confirmation email has been sent.")
+    return redirect(url_for("auth.unconfirmed"))
+
+
+@bp.route("/reset", methods=["GET", "POST"])
+def reset():
+    form = EmailForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first_or_404()
+        token = generate_confirmation_token(user.email)
+        send_email(
+            redirect="auth.reset_with_token",
+            html="recover.html",
+            recipients=user.email,
+            subject="Password reset requested",
+            token=token
+        )
+        flash("Check your email.")
+        return redirect(url_for("auth.login"))
+    return render_template("login.html")
+
+
+@bp.route("/reset/<token>", methods=["GET", "POST"])
+def reset_with_token(token):
+    email = confirm_token(token)
+    if not email:
+        flash("The confirmation link is invalid or has expired.")
+        return render_template("login.html")
+
+    form = ResetPasswordForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=email).first_or_404()
+
+        user.password = form.password.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for("auth.login"))
+
+    return render_template("reset_with_token.html", form=form, token=token)

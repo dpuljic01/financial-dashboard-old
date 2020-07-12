@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<div id="reset-password" class="container container-auth white">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <script type="text/javascript">
+            Materialize.toast("{{ messages[0] }}", 4000);
+    </script>
+    {% endif %}
+    {% endwith %}
+    <div class="form-container">
+        <h5 class="center-align blue-text text-darken-4">Reset password</h5>
+        <form action="{{ url_for('auth.reset_with_token', token=token) }}" method="POST">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="input-field col s12">
+                    <span class="btn-show-pass">
+                        <i class="material-icons password-visible">visibility</i>
+                    </span>
+                    <input id="reset_password" type="password" name="password" class="validate" autofocus>
+                    <label for="reset_password">New password</label>
+                </div>
+            </div>
+            <div class="center-align">
+                <button class="btn waves-effect waves-light blue darken-4" type="submit" name="action">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

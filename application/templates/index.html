@@ -6,21 +6,28 @@ Financial Dashboard
 
 {% block content %}
 <div class="container main">
-    <nav class="blue darken-3" role="navigation">
+    <nav class="blue darken-4" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="#" class="left"><i class="material-icons">show_chart</i></a>
             <ul class="hide-on-med-and-down right">
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
                 <li><a href="{{ url_for('main.dash1') }}">Dash 1</a></li>
                 <li><a href="{{ url_for('main.dash2') }}">Dash 2</a></li>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                {% endif %}
+
             </ul>
             <a class="dropdown-trigger right hide-on-large-only" href="#" data-activates="dropdown1">
                 <i class="material-icons">menu</i>
             </a>
             <ul id="dropdown1" class="dropdown-content">
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
                 <li class="divider"></li>
                 <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
                 <li class="divider"></li>
@@ -29,6 +36,10 @@ Financial Dashboard
                 <li><a href="{{ url_for('main.dash2') }}">Dash 2</a></li>
                 <li class="divider"></li>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

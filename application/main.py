@@ -7,8 +7,6 @@ bp = Blueprint("main", __name__)
 
 
 @bp.route("/")
-@login_required
-@check_confirmed
 def index():
     return render_template("index.html")
 

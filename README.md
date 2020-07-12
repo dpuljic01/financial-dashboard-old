@@ -2,34 +2,6 @@
 
 Insert some description here :)
 
-### Migrations
-
-Whenever a database migration needs to be made. Run the following commands
-
-```bash
-docker-compose run --rm manage db migrate
-flask db migrate # If running locally without Docker
-```
-
-This will generate a new migration script. Then run
-
-```bash
-docker-compose run --rm manage db upgrade
-flask db upgrade # If running locally without Docker
-```
-
-To apply the migration.
-
-If you will deploy your application remotely (e.g on Heroku) you should add the `migrations` folder to version control.
-You can do this after `flask db migrate` by running the following commands
-
-```bash
-git add migrations/*
-git commit -m "Add migrations"
-```
-
-Make sure folder `migrations/versions` is not empty.
-
 
 ### Heroku
 
@@ -48,6 +20,6 @@ Make sure folder `migrations/versions` is not empty.
   
 * Running the app
 
-    - *locally* -> `python app.py`
-    - *staging* -> `heroku run python app.py --app financial-dashboard-stage`
-    - *production* -> `heroku run python app.py --app financial-dashboard-prod`
+    - *locally* -> `python manage.py runserver`
+    - *staging* -> `heroku run manage.py runserver --app financial-dashboard-stage`
+    - *production* -> `heroku run manage.py runserver --app financial-dashboard-prod`

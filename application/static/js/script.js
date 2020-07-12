@@ -12,6 +12,7 @@ $(function() {
             showPass = 0;
         }
     });
+    $('.modal').modal();
 
     // little hack for submitting two forms on the same site ;)
     $("#register-form").submit(function(event) {

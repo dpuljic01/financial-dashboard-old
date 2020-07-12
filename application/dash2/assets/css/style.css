@@ -24,18 +24,10 @@ h3 {
 .tab {
     width: 200px;
 }
-.tabs .indicator {
-    background-color: white;
-    height: 3px;
-}
 
 .form-container {
     padding: 30px;
     padding-top: 10px;
-}
-
-.confirmation-tabs-btn {
-    position: absolute;
 }
 
 .icon-block {

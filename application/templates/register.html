@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<div class="container container-auth white s10">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <script type="text/javascript">
+        Materialize.toast("{{ messages[0] }}", 4000);
+    </script>
+    {% endif %}
+    {% endwith %}
+    <div id="register">
+        <form class="col s12" id="register-form" method="POST" action="/register">
+            {{ form.hidden_tag() }}
+            <div class="form-container">
+                <h4 class="blue-text text-darken-4 center-align">Register</h4>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="first_name" name="first_name" type="text" class="validate" autofocus>
+                        <label for="first_name">First Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="last_name" name="last_name" type="text" class="validate" autofocus>
+                        <label for="last_name">Last Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="email" type="email" name="email" class="validate" autofocus>
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                            <span class="btn-show-pass">
+                                <i class="material-icons password-visible">visibility</i>
+                            </span>
+                        <input id="password" type="password" name="password" class="validate" autofocus>
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="center-align">
+                    <button class="btn waves-effect waves-light blue darken-4" type="submit" name="action">Submit
+                    </button>
+                    <br><br>
+                    Already have an account? <a href="{{ url_for('auth.login') }}">Login</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

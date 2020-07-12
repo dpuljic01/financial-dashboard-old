@@ -19,15 +19,18 @@ manager.add_command("db", MigrateCommand)
 @manager.command
 def create_user():
     email = click.prompt("Email")
-    username = click.prompt("Username")
+    first_name = click.prompt("First name")
+    last_name = click.prompt("Last name")
     password = click.prompt("Password", hide_input=True, confirmation_prompt=True)
     role = click.prompt("Role")
 
     try:
         user = User(
             email=email,
-            username=username,
+            first_name=first_name,
+            last_name=last_name,
             password=password,
+            confirmed=True,
             email_confirmed_at=datetime.utcnow()
         )
         role = Role(name=role)

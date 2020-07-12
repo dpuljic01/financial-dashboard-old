@@ -1,6 +1,6 @@
 import dash_html_components as html
 
-navigation = html.Nav(className="blue darken-3", children=[
+navigation = html.Nav(className="blue darken-4", children=[
     html.Div(className="nav-wrapper container", children=[
         html.A(href="#", className="left", children=[
             html.I("show_chart", className="material-icons")

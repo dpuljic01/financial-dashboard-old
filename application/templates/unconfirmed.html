@@ -2,7 +2,14 @@
 
 {% block content %}
 <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <script type="text/javascript">
+        Materialize.toast("{{ messages[0] }}", 4000);
+    </script>
+    {% endif %}
+    {% endwith %}
+    <div class="container white-text">
         <h3 class="header center orange-text">Welcome!</h3>
         <div class="row center">
             <h5 class="header col s12 light">
@@ -12,7 +19,7 @@
         </div>
         <div class="row center">
             Didn't get the email?
-            <a href="#" class="btn-medium waves-effect waves-light blue-text">Resend</a>
+            <a href="{{ url_for('auth.resend_confirmation') }}" class="btn-medium waves-effect waves-light blue-text">Resend</a>
         </div>
     </div>
 </div>

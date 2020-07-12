@@ -5,10 +5,9 @@ from flask_mail import Message
 from application.extensions import mail
 
 
-def send_email(recipients, token):
-    subject = "Please confirm your email"
-    confirm_url = url_for("auth.confirm_email", token=token, _external=True)
-    template = render_template("activate.html", confirm_url=confirm_url)
+def send_email(html, redirect, recipients, subject, token):
+    url = url_for(redirect, token=token, _external=True)
+    template = render_template(html, url=url)
     msg = Message(
         subject=subject,
         recipients=[recipients],
