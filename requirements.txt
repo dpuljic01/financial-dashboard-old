@@ -17,7 +17,7 @@ certifi==2020.6.20        # via requests
 cffi==1.14.0              # via bcrypt, cryptography
 chardet==3.0.4            # via aiohttp, requests
 click==7.1.2              # via -r requirements.in, flask
-cryptography==2.9.2       # via flask-user, pyopenssl
+cryptography==3.2         # via flask-user, pyopenssl
 dash-core-components==1.10.1  # via dash
 dash-html-components==1.0.3  # via dash
 dash-table==4.8.1         # via dash
